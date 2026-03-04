@@ -2,13 +2,15 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import employeesRoutes from "./routes/employees.routes.js";
+import availabilityRoutes from "./routes/availability.routes.js";
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());          // allow frontend calls (different port)
-app.use(express.json());  // parse JSON request bodies
+app.use(express.json()); // parse JSON request bodies
+app.use("/availability", availabilityRoutes); 
 
 app.get("/health", (req, res) => {
   res.json({ ok: true, message: "Server running" });
