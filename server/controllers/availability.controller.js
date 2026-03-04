@@ -1,28 +1,17 @@
-import { availability, employees } from "../data/db.js";
+// server/controllers/availability.controller.js
 import { v4 as uuid } from "uuid";
+import { availability } from "../data/db.js"; // or whatever you named it
 
-/**
- * GET /availability?employeeId=...
- * - If employeeId provided: return that employee's availability only
- * - Else: return all availability
- */
 export function getAvailability(req, res) {
   const { employeeId } = req.query;
 
-  if (employeeId) {
-    const filtered = availability.filter((a) => a.employeeId === employeeId);
-    return res.json({ data: filtered });
-  }
+  const data = employeeId
+    ? availability.filter((a) => a.employeeId === employeeId)
+    : availability;
 
-  return res.json({ data: availability });
+  res.json({ data });
 }
 
-/**
- * POST /availability
- * Body:
- * { employeeId, day, start, end }
- * Example day: "Mon", "Tue", ...
- */
 export function createAvailability(req, res) {
   const { employeeId, day, start, end } = req.body;
 
@@ -30,15 +19,17 @@ export function createAvailability(req, res) {
     return res.status(400).json({ error: "employeeId, day, start, end are required" });
   }
 
-  // Ensure employee exists
-  const empExists = employees.some((e) => e.id === employeeId);
-  if (!empExists) {
-    return res.status(404).json({ error: "Employee not found" });
-  }
+  // ✅ DUPLICATE CHECK (must be inside this function)
+  const duplicate = availability.some(
+    (a) =>
+      a.employeeId === employeeId &&
+      a.day === day &&
+      a.start === start &&
+      a.end === end
+  );
 
-  // Simple time validation (works because "HH:MM" compares correctly)
-  if (start >= end) {
-    return res.status(400).json({ error: "start must be before end" });
+  if (duplicate) {
+    return res.status(409).json({ error: "Availability already exists for this day and time" });
   }
 
   const record = {
@@ -51,5 +42,6 @@ export function createAvailability(req, res) {
   };
 
   availability.push(record);
+
   return res.status(201).json({ data: record });
 }
