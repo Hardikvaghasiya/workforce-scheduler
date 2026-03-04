@@ -37,6 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <NavLink to="/shifts" className={linkClass}>
                 Shifts
               </NavLink>
+              <NavLink to="/schedule">Schedule</NavLink>
             </nav>
 
             <div className="mt-4 rounded-2xl bg-gray-50 p-3 text-xs text-gray-600">

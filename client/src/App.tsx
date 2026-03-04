@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import EmployeesPage from "./pages/EmployeesPage";
 import AvailabilityPage from "./pages/AvailabilityPage";
 import ShiftsPage from "./pages/ShiftsPage";
+import SchedulePage from "./pages/SchedulePage";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/employees" element={<EmployeesPage />} />
         <Route path="/availability" element={<AvailabilityPage />} />
         <Route path="/shifts" element={<ShiftsPage />} />
+        <Route path="/schedule" element={<SchedulePage />} />
       </Routes>
     </Layout>
   );
