@@ -1,7 +1,6 @@
 // server/data/db.js
-// Simple in-memory "database" for MVP.
-// Later we will replace with PostgreSQL/Supabase.
+// In-memory DB (later we replace with MongoDB)
 
-export const employees = [];      // stores employee records
-export const availability = [];   // stores availability records
-export const shifts = [];         // stores shifts records
+export const employees = [];
+export const availability = [];
+export const shifts = [];
